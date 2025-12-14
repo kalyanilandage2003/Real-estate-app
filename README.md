@@ -6,3 +6,4 @@ A new Flutter project.
 
 - login screen,signup screen added
 - home scrreen,onboardingscreen added
+- updated ui

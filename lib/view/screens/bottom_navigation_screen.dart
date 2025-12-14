@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/home_screen.dart';
+import 'package:ghar_for_sale/view/screens/map_screen.dart';
 import 'package:ghar_for_sale/view/screens/profile_screen.dart';
 import 'package:ghar_for_sale/view/screens/search_screen.dart';
 import 'package:ghar_for_sale/view/screens/wishlist_screen.dart';
@@ -17,7 +18,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    SearchScreen(),
+    MapScreen(),
     WishlistScreen(),
     ProfileScreen(),
   ];
@@ -36,7 +37,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Location"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pin_drop),
+            label: "Location",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: "Wishlist",

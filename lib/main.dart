@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
-import 'package:ghar_for_sale/view/screens/home_screen.dart';
-import 'package:ghar_for_sale/view/screens/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +49,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: BottomNavScreen(),
     );
   }
 }

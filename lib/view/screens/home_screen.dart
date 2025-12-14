@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
+import 'package:ghar_for_sale/view/screens/property_detail_screen.dart';
 import 'package:ghar_for_sale/view/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,60 +12,49 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
   String selectedCity = "Amravati";
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightGrey,
-
-      /// 🔝 APP BAR WITH LOCATION
+      /// 🔝 APP BAR
       appBar: AppBar(
         elevation: 0,
         backgroundColor: white,
+        titleSpacing: 0,
         title: GestureDetector(
-          onTap: () => _showCityBottomSheet(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Ghar For Sale",
-                style: TextStyle(fontSize: 12, color: grey),
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.location_on, color: blue, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    selectedCity,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: black,
+          onTap: _showCityBottomSheet,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Location",
+                  style: TextStyle(fontSize: 12, color: grey),
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.location_on, size: 16, color: blue),
+                    const SizedBox(width: 4),
+                    Text(
+                      selectedCity,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: black,
+                      ),
                     ),
-                  ),
-                  const Icon(Icons.keyboard_arrow_down, color: black),
-                ],
-              ),
-            ],
+                    const Icon(Icons.keyboard_arrow_down),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: black),
+            icon: const Icon(Icons.notifications_none, color: black),
             onPressed: () {},
           ),
         ],
@@ -78,57 +68,47 @@ class _HomeScreenState extends State<HomeScreen>
             /// 🔍 SEARCH BAR
             Padding(
               padding: const EdgeInsets.all(16),
-              child: TextField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: "Search property, locality, project",
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+              child: GestureDetector(
+                onTap: () => goToPush(context, const SearchScreen()),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: black12,
+                        blurRadius: 6,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(Icons.search, color: grey),
+                      SizedBox(width: 10),
+                      Text(
+                        "Search property, locality, project",
+                        style: TextStyle(color: grey),
+                      ),
+                    ],
                   ),
                 ),
-                onTap: () {
-                  goToPush(context, SearchScreen());
-                },
               ),
             ),
 
-            /// 🏷 BUY / RENT TABS
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16),
-            //   child: TabBar(
-            //     controller: _tabController,
-            //     labelColor: blue,
-            //     unselectedLabelColor: black,
-            //     indicator: BoxDecoration(
-            //       shape: BoxShape.rectangle,
-            //       borderRadius: BorderRadius.circular(8),
-            //       //color: blue,
-            //     ),
-            //     tabs: const [
-            //       Tab(text: "Buy"),
-            //       Tab(text: "Rent"),
-            //     ],
-            //   ),
-            // ),
-            const SizedBox(height: 16),
-
-            ///  RECOMMENDED
-            _sectionHeader("Recommended", () {}),
+            /// SECTIONS
+            _sectionHeader("Recommended"),
             _horizontalPropertyList(),
 
-            ///  NEAR YOU
-            _sectionHeader("Near You", () {}),
+            _sectionHeader("Near You"),
             _horizontalPropertyList(),
 
-            ///  TRENDING
-            _sectionHeader("Trending Projects", () {}),
+            _sectionHeader("Trending Projects"),
             _horizontalPropertyList(),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 30),
           ],
         ),
       ),
@@ -136,76 +116,96 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   /// 🔹 SECTION HEADER
-  Widget _sectionHeader(String title, VoidCallback onViewAll) {
+  Widget _sectionHeader(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: black,
+            ),
           ),
-          TextButton(onPressed: onViewAll, child: const Text("View All")),
+          Text(
+            "View All",
+            style: TextStyle(
+              color: Colors.blue.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  ///  HORIZONTAL PROPERTY LIST
+  /// 🏘 PROPERTY LIST
   Widget _horizontalPropertyList() {
     return SizedBox(
-      height: 230,
+      height: 250,
       child: ListView.builder(
+        padding: const EdgeInsets.only(right: 16),
         scrollDirection: Axis.horizontal,
         itemCount: 5,
-        itemBuilder: (context, index) {
-          return _propertyCard();
-        },
+        itemBuilder: (context, index) => _propertyCard(),
       ),
     );
   }
 
-  ///  PROPERTY CARD
+  /// 🏠 PROPERTY CARD
   Widget _propertyCard() {
     return Container(
-      width: 180,
+      width: 190,
       margin: const EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
         color: white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [BoxShadow(color: black12, blurRadius: 6)],
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: const [
+          BoxShadow(color: black12, blurRadius: 8, offset: Offset(0, 4)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 110,
-            decoration: BoxDecoration(
-              color: grey,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12),
+          /// IMAGE
+          GestureDetector(
+            onTap: () {
+              goToPush(context, PropertyDetailScreen());
+            },
+            child: Container(
+              height: 120,
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
+              ),
+              child: const Center(
+                child: Icon(Icons.home_work_outlined, size: 40, color: blue),
               ),
             ),
-            child: const Center(child: Icon(Icons.home, size: 40)),
           ),
+
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
                   "₹ 45 Lakh",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 6),
                 Text(
                   "2 BHK Apartment",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 4),
-                Text("Pune", style: TextStyle(color: grey, fontSize: 12)),
+                SizedBox(height: 6),
+                Text("Amravati", style: TextStyle(fontSize: 12, color: grey)),
               ],
             ),
           ),
@@ -214,40 +214,38 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  ///  CITY SELECTION BOTTOM SHEET
+  /// 🌍 CITY BOTTOM SHEET
   void _showCityBottomSheet() {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) {
-        return ListView(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                "Select City",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+      builder: (_) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              "Select City",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            _cityTile("Nagpur"),
-            _cityTile("Pune"),
-            _cityTile("Mumbai"),
-            _cityTile("Amravati"),
-          ],
-        );
-      },
+          ),
+          _cityTile("Amravati"),
+          _cityTile("Nagpur"),
+          _cityTile("Pune"),
+          _cityTile("Mumbai"),
+        ],
+      ),
     );
   }
 
   Widget _cityTile(String city) {
     return ListTile(
+      leading: const Icon(Icons.location_city, color: blue),
       title: Text(city),
       onTap: () {
-        setState(() {
-          selectedCity = city;
-        });
+        setState(() => selectedCity = city);
         Navigator.pop(context);
       },
     );

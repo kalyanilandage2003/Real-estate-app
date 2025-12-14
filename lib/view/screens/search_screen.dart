@@ -23,24 +23,24 @@ class _SearchScreenState extends State<SearchScreen> {
       /// 🔝 APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           "Search Property",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list, color: Colors.black),
+            icon: const Icon(Icons.filter_list, color: blue),
             onPressed: _openFilterSheet,
           ),
         ],
       ),
 
-      /// 🧱 BODY
+      /// BODY
       body: Column(
         children: [
           /// 🔍 SEARCH FIELD
@@ -49,18 +49,19 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: "Search locality, project, builder",
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search, color: blue),
                 filled: true,
                 fillColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
 
-          /// 📍 SELECTED FILTER INFO
+          ///  SELECTED FILTER INFO
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Wrap(
@@ -78,7 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
           const SizedBox(height: 16),
 
-          /// 📃 RESULTS
+          /// RESULTS
           Expanded(
             child: ListView.builder(
               itemCount: 6,
@@ -95,20 +96,30 @@ class _SearchScreenState extends State<SearchScreen> {
   ///  PROPERTY RESULT TILE
   Widget _propertyTile() {
     return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
+        contentPadding: const EdgeInsets.all(12),
         leading: Container(
           width: 60,
           height: 60,
-          color: Colors.grey.shade300,
-          child: const Icon(Icons.home),
+          decoration: BoxDecoration(
+            color: blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(Icons.home, color: blue),
         ),
-        title: const Text("2 BHK Apartment"),
-        subtitle: const Text("Amravati • ₹45 Lakh"),
+        title: const Text(
+          "2 BHK Apartment",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        subtitle: const Padding(
+          padding: EdgeInsets.only(top: 4),
+          child: Text("Amravati • ₹45 Lakh"),
+        ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 14),
-        onTap: () {
-          // TODO: Navigate to Property Details
-        },
+        onTap: () {},
       ),
     );
   }
@@ -136,11 +147,18 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  /// 📍 CITY
+                  ///  CITY
                   const Text("City"),
-                  DropdownButton<String>(
+                  DropdownButtonFormField<String>(
                     value: selectedCity,
-                    isExpanded: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                     items: ["Amravati", "Nagpur", "Pune", "Mumbai"]
                         .map(
                           (city) =>
@@ -158,14 +176,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   const Text("Price (in Lakhs)"),
                   RangeSlider(
                     values: priceRange,
-                    activeColor: blueAccent,
-                    inactiveColor: blue,
+                    activeColor: blue,
+                    inactiveColor: blue.withOpacity(0.3),
                     min: 10,
                     max: 100,
                     divisions: 9,
                     labels: RangeLabels(
-                      "${priceRange.start.toInt()}",
-                      "${priceRange.end.toInt()}",
+                      "${priceRange.start.toInt()}L",
+                      "${priceRange.end.toInt()}L",
                     ),
                     onChanged: (value) {
                       setModalState(() => priceRange = value);
@@ -178,8 +196,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     spacing: 8,
                     children: [1, 2, 3, 4].map((bhk) {
                       return ChoiceChip(
-                        label: Text("$bhk BHK", selectionColor: blueAccent),
+                        label: Text(
+                          "$bhk BHK",
+                          style: TextStyle(
+                            color: selectedBhk == bhk
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: selectedBhk == bhk,
+                        selectedColor: blue,
+                        backgroundColor: Colors.grey.shade200,
                         onSelected: (_) {
                           setModalState(() => selectedBhk = bhk);
                         },
@@ -230,6 +257,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _chip(String label) {
-    return Chip(label: Text(label), backgroundColor: Colors.blue.shade50);
+    return Chip(
+      label: Text(label, style: const TextStyle(fontSize: 12)),
+      backgroundColor: blue.withOpacity(0.1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    );
   }
 }
