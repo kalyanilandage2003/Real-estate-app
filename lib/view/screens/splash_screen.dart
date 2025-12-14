@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/view/login_screen.dart';
+import 'package:ghar_for_sale/view/screens/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

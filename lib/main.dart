@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
-import 'package:ghar_for_sale/view/login_screen.dart';
-import 'package:ghar_for_sale/view/splash_screen.dart';
+import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
+import 'package:ghar_for_sale/view/screens/home_screen.dart';
+import 'package:ghar_for_sale/view/screens/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,30 +24,35 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ghar_for_Sale',
-      themeMode: ThemeMode.system,
-      theme: ThemeData(
-        // Light Theme
-        brightness: Brightness.light,
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: white,
-        appBarTheme: AppBarTheme(
-          backgroundColor: white,
-          foregroundColor: black,
-        ),
-      ),
-      darkTheme: ThemeData(
-        // Dark Theme
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: black,
-        appBarTheme: AppBarTheme(
-          backgroundColor: black,
-          foregroundColor: white,
-        ),
-      ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey.shade100,
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          primary: Colors.blue,
+          secondary: Colors.blueAccent,
+        ),
+
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      ),
+      home: const HomeScreen(),
     );
   }
 }

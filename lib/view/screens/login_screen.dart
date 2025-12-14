@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/controller/share_pref.dart';
 import 'package:ghar_for_sale/util/constant.dart';
-import 'package:ghar_for_sale/view/signup_screen.dart';
+import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
+import 'package:ghar_for_sale/view/screens/signup_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';
@@ -55,11 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (isLogin) {
           if (role == 'user') {
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   MaterialPageRoute(builder: (_) => const BottomNavigationPage()),
-            //   (route) => false,
-            // );
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => BottomNavScreen()),
+              (route) => false,
+            );
           } else if (role == 'architect') {
             // Navigator.pushAndRemoveUntil(
             //   context,
@@ -161,6 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: "Login",
                 isLoading: _isLoading,
                 onTapped: _onLogin,
+                color: blueAccent,
               ),
 
               const SizedBox(height: 15),
@@ -176,10 +178,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       "Signup",
                       style: TextStyle(
-                        color: homeTextColor,
+                        color: blue,
                         fontSize: 18,
                         decoration: TextDecoration.underline,
-                        decorationColor: homeTextColor,
+                        decorationColor: blue,
                       ),
                     ),
                   ),
