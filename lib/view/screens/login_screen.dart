@@ -190,7 +190,8 @@ import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String role;
+  const LoginScreen({super.key, required this.role});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -287,7 +288,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(fontSize: 18, color: blueGrey),
                   ),
                   GestureDetector(
-                    onTap: () => goToPush(context, const SignUpScreen()),
+                    onTap: () =>
+                        goToPush(context, const SignUpScreen(role: 'user')),
                     child: Text(
                       "Signup",
                       style: TextStyle(

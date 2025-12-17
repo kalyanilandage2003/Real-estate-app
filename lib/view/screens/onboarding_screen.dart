@@ -85,7 +85,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   if (currentIndex == pages.length - 1) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      MaterialPageRoute(
+                        builder: (_) => const LoginScreen(role: 'user'),
+                      ),
                     );
                   } else {
                     _controller.nextPage(

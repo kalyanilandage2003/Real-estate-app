@@ -10,7 +10,8 @@ import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  final String role; // user or guide
+  const SignUpScreen({super.key, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +117,7 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
           bgColor: green,
         );
 
-        goToPushReplacement(context, LoginScreen());
+        goToPushReplacement(context, LoginScreen(role: 'user'));
       } on FirebaseAuthException catch (error) {
         log(" Error Code: ${error.code}");
         log("Error Message: ${error.message}");
@@ -237,7 +238,8 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
                 style: TextStyle(fontSize: 18, color: blueGrey),
               ),
               GestureDetector(
-                onTap: () => goToPushReplacement(context, LoginScreen()),
+                onTap: () =>
+                    goToPushReplacement(context, LoginScreen(role: 'user')),
                 child: Text(
                   "Login",
                   style: TextStyle(
@@ -356,7 +358,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
         eduDegController.clear();
 
         ///Pop the page
-        goToPushReplacement(context, LoginScreen());
+        goToPushReplacement(context, LoginScreen(role: 'agent'));
 
         CustomSnackbar().showCustomSnackbar(
           context,
@@ -509,7 +511,8 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
                 style: TextStyle(fontSize: 18, color: blueGrey),
               ),
               GestureDetector(
-                onTap: () => goToPushReplacement(context, LoginScreen()),
+                onTap: () =>
+                    goToPushReplacement(context, LoginScreen(role: 'user')),
                 child: Text(
                   "Login",
                   style: TextStyle(

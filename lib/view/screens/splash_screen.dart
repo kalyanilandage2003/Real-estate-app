@@ -1,21 +1,27 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/view/screens/login_screen.dart';
-import 'package:ghar_for_sale/view/screens/onboarding_screen.dart';
+import 'role_selection.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
-  void navigateToScreen(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => OnboardingScreen()),
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => RoleSelectionScreen()),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    navigateToScreen(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(

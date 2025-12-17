@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/controller/share_pref.dart';
-import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
 import 'package:ghar_for_sale/view/screens/splash_screen.dart';
 
 void main() async {

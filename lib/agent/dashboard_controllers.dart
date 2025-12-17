@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'agent_model.dart';
 
 class DashboardController extends ChangeNotifier {
-  /// 🔹 SINGLE SOURCE OF TRUTH
   final List<Property> _properties = [
     Property(
       id: '1',
@@ -39,22 +38,22 @@ class DashboardController extends ChangeNotifier {
     ),
   ];
 
-  /// 🔹 GET PROPERTIES (READ ONLY)
+  /// GET PROPERTIES (READ ONLY)
   List<Property> getProperties() => _properties;
 
-  /// 🔥 ADD PROPERTY (FORM → DASHBOARD)
+  ///  ADD PROPERTY (FORM → DASHBOARD)
   void addProperty(Property property) {
     _properties.insert(0, property);
     notifyListeners();
   }
 
-  /// ❌ DELETE PROPERTY
+  /// DELETE PROPERTY
   void deleteProperty(String id) {
     _properties.removeWhere((p) => p.id == id);
     notifyListeners();
   }
 
-  /// ✏️ UPDATE PROPERTY
+  ///  UPDATE PROPERTY
   void updateProperty(Property updatedProperty) {
     final index = _properties.indexWhere((p) => p.id == updatedProperty.id);
     if (index != -1) {

@@ -11,4 +11,5 @@ A new Flutter project.
 # 17/12/25
 - added wishlist,peofile screen and updated ui
 - added agent panel
+- role selection added
 
