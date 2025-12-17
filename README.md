@@ -7,4 +7,8 @@ A new Flutter project.
 - login screen,signup screen added
 - home scrreen,onboardingscreen added
 - updated ui
+
+# 17/12/25
 - added wishlist,peofile screen and updated ui
+- added agent panel
+
