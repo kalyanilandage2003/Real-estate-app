@@ -1,137 +1,120 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ghar_for_sale/util/constant.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
-
-  @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-  late GoogleMapController _mapController;
-
-  final LatLng _initialLocation = const LatLng(20.9374, 77.7796); // Amravati
-
-  final List<Map<String, dynamic>> properties = [
-    {
-      "id": "1",
-      "title": "2 BHK Apartment",
-      "price": "₹45 Lakh",
-      "location": const LatLng(20.9379, 77.7791),
-    },
-    {
-      "id": "2",
-      "title": "3 BHK Villa",
-      "price": "₹75 Lakh",
-      "location": const LatLng(20.9385, 77.7802),
-    },
-  ];
-
-  Map<String, dynamic>? selectedProperty;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
+
+      /// 🔝 APP BAR (LIGHT & PROFESSIONAL)
+      appBar: AppBar(
+        backgroundColor: white,
+        elevation: 0.5,
+        iconTheme: const IconThemeData(color: black),
+        title: const Text(
+          "Property Map",
+          style: TextStyle(
+            color: black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
       body: Stack(
         children: [
-          /// 🗺 GOOGLE MAP
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: _initialLocation,
-              zoom: 14,
+          /// 🗺 MAP PLACEHOLDER (CLEAN)
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.grey.shade200,
+            child: const Center(
+              child: Icon(Icons.map_outlined, size: 90, color: grey),
             ),
-            onMapCreated: (controller) {
-              _mapController = controller;
-            },
-            markers: properties.map((property) {
-              return Marker(
-                markerId: MarkerId(property["id"]),
-                position: property["location"],
-                onTap: () {
-                  setState(() {
-                    selectedProperty = property;
-                  });
-                },
-              );
-            }).toSet(),
           ),
 
-          /// 🔙 BACK BUTTON
+          /// 🔍 SEARCH BAR (TOP)
           Positioned(
-            top: 40,
+            top: 16,
             left: 16,
-            child: CircleAvatar(
-              backgroundColor: white,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: black),
-                onPressed: () => Navigator.pop(context),
+            right: 16,
+            child: Container(
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [BoxShadow(color: black12, blurRadius: 6)],
               ),
-            ),
-          ),
-
-          /// 🏠 PROPERTY MINI CARD
-          if (selectedProperty != null)
-            Positioned(
-              bottom: 20,
-              left: 16,
-              right: 16,
-              child: GestureDetector(
-                onTap: () {
-                  // TODO: Navigate to Property Details
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(color: black12, blurRadius: 10),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: blue.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.home, size: 35, color: blue),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              selectedProperty!["price"],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              selectedProperty!["title"],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: grey,
-                      ),
-                    ],
-                  ),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Search area or landmark",
+                  prefixIcon: Icon(Icons.search, color: grey),
                 ),
               ),
             ),
+          ),
+
+          /// 🏠 PROPERTY CARD (BOTTOM – REAL FEEL)
+          Positioned(
+            bottom: 20,
+            left: 16,
+            right: 16,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: const [BoxShadow(color: black12, blurRadius: 10)],
+              ),
+              child: Row(
+                children: [
+                  /// IMAGE
+                  Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey.shade300,
+                    ),
+                    child: const Icon(Icons.home, color: grey, size: 36),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  /// DETAILS
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "₹45 Lakh",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text("2 BHK Apartment", style: TextStyle(fontSize: 14)),
+                        SizedBox(height: 2),
+                        Text(
+                          "Amravati",
+                          style: TextStyle(color: grey, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// CTA ICON
+                  const Icon(Icons.arrow_forward_ios, size: 16, color: grey),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

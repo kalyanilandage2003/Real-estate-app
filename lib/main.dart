@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ghar_for_sale/controller/share_pref.dart';
 import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
+import 'package:ghar_for_sale/view/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +14,7 @@ void main() async {
       projectId: "realestate-52afa",
     ),
   );
+  await MySharedPrefference.init();
   runApp(const MainApp());
 }
 
@@ -49,7 +52,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      home: BottomNavScreen(),
+      home: SplashScreen(),
     );
   }
 }

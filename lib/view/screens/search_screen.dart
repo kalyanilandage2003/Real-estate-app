@@ -108,7 +108,12 @@ class _SearchScreenState extends State<SearchScreen> {
             color: blue.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: const Icon(Icons.home, color: blue),
+          child: Image.asset(
+            "assets/images/home.jpg",
+            fit: BoxFit.cover,
+            height: 100,
+            width: 200,
+          ),
         ),
         title: const Text(
           "2 BHK Apartment",

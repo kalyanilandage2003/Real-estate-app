@@ -45,7 +45,7 @@ class CustomTextField extends StatelessWidget {
         textInputAction: textInputAction,
         keyboardType: keyboardtype ?? TextInputType.name,
         controller: controller,
-        obscureText: isPassword == false ? false : isPassword,
+        obscureText: !isPassword,
         maxLength: maxLength,
         decoration: InputDecoration(
           prefixIcon: prefix,

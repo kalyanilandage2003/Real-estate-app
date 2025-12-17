@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/view/screens/login_screen.dart';
+import 'package:ghar_for_sale/view/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   void navigateToScreen(BuildContext context) {
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => OnboardingScreen()),
+      );
     });
   }
 

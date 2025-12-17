@@ -34,8 +34,8 @@ class UserSignUpTab extends StatefulWidget {
 }
 
 class _UserSignUpTabState extends State<UserSignUpTab> {
-  bool isPasswordShown = true;
-  bool isCnfmPasswordShown = true;
+  bool isPasswordShown = false;
+  bool isCnfmPasswordShown = false;
   bool _isLoading = false;
 
   ///CONTROLLERS
@@ -226,6 +226,7 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
             onTapped: () async {
               await _userSignUp();
             },
+            color: blueAccent,
           ),
           const SizedBox(height: 15),
           Row(
@@ -240,10 +241,10 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
                 child: Text(
                   "Login",
                   style: TextStyle(
-                    color: homeTextColor,
+                    color: blueAccent,
                     fontSize: 18,
                     decoration: TextDecoration.underline,
-                    decorationColor: homeTextColor,
+                    decorationColor: blueAccent,
                   ),
                 ),
               ),
@@ -362,8 +363,6 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
           "Registered Successfully!",
           bgColor: green,
         );
-
-        gotoBack(context);
       } on FirebaseAuthException catch (error) {
         log(" Error Code: ${error.code}");
         log(" Error Message: ${error.message}");
@@ -413,7 +412,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Image.asset(height: 150, width: 150, "assets/logo.png"),
+          Image.asset(height: 150, width: 150, "assets/images/applogo.png"),
           const SizedBox(height: 20),
           CustomTextField(
             controller: nameController,
@@ -514,10 +513,10 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
                 child: Text(
                   "Login",
                   style: TextStyle(
-                    color: homeTextColor,
+                    color: blueAccent,
                     fontSize: 18,
                     decoration: TextDecoration.underline,
-                    decorationColor: homeTextColor,
+                    decorationColor: blueAccent,
                   ),
                 ),
               ),

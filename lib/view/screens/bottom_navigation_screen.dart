@@ -3,7 +3,6 @@ import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/home_screen.dart';
 import 'package:ghar_for_sale/view/screens/map_screen.dart';
 import 'package:ghar_for_sale/view/screens/profile_screen.dart';
-import 'package:ghar_for_sale/view/screens/search_screen.dart';
 import 'package:ghar_for_sale/view/screens/wishlist_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -27,26 +26,54 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: blue,
-        unselectedItemColor: grey,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop),
-            label: "Location",
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          height: 72,
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.10),
+                blurRadius: 25,
+                offset: const Offset(0, 12),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Wishlist",
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _navItem(Icons.home, 0),
+              _navItem(Icons.pin_drop, 1),
+              _navItem(Icons.favorite_border, 2),
+              _navItem(Icons.person_outline, 3),
+            ],
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _navItem(IconData icon, int index) {
+    final bool isSelected = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() => _currentIndex = index);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? blue.withOpacity(0.12) : Colors.transparent,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: AnimatedScale(
+          scale: isSelected ? 1.15 : 1.0,
+          duration: const Duration(milliseconds: 250),
+          child: Icon(icon, size: 26, color: isSelected ? blue : grey),
+        ),
       ),
     );
   }

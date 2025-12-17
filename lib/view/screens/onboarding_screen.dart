@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/model/onboarding_model.dart';
 import 'package:ghar_for_sale/util/constant.dart';
+import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
 import 'package:ghar_for_sale/view/screens/login_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/onboarding_widget.dart';
@@ -37,6 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       body: Column(
         children: [
           Expanded(

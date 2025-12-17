@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
+import 'package:ghar_for_sale/view/screens/my_properties.dart';
+import 'package:ghar_for_sale/view/screens/settings_screen.dart';
+import 'package:ghar_for_sale/view/screens/help_support_screen.dart';
+import 'package:ghar_for_sale/view/screens/wishlist_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -7,9 +11,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
-
-      /// 🔝 APP BAR
       appBar: AppBar(
         elevation: 0,
         backgroundColor: white,
@@ -18,7 +19,6 @@ class ProfileScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: black),
       ),
 
-      /// BODY
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 24),
               decoration: BoxDecoration(
-                color: Colors.blue.shade600,
+                color: blue,
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24),
                 ),
@@ -60,26 +60,48 @@ class ProfileScreen extends StatelessWidget {
             _profileTile(
               icon: Icons.favorite_border,
               title: "My Wishlist",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const WishlistScreen()),
+                );
+              },
             ),
+
             _profileTile(
               icon: Icons.home_work_outlined,
               title: "My Properties",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MyPropertiesScreen()),
+                );
+              },
             ),
+
             _profileTile(
-              icon: Icons.notifications_none,
-              title: "Notifications",
-              onTap: () {},
+              icon: Icons.settings,
+              title: "Settings",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                );
+              },
             ),
-            _profileTile(icon: Icons.settings, title: "Settings", onTap: () {}),
+
             _profileTile(
               icon: Icons.help_outline,
               title: "Help & Support",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const HelpSupportScreen()),
+                );
+              },
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
 
             /// 🚪 LOGOUT
             Padding(
@@ -94,8 +116,45 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // TODO: Logout logic
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        title: const Text(
+                          "Logout",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        content: const Text("Are you sure you want to logout?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // close dialog
+                            },
+                            child: const Text("Cancel"),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context); // close dialog
+
+                              /// 🔥 YAHAN LOGOUT LOGIC AAYEGA
+                              // FirebaseAuth.instance.signOut();
+                              // Navigator.pushAndRemoveUntil(...);
+                            },
+                            child: const Text("Logout"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
+
                 icon: const Icon(Icons.logout),
                 label: const Text("Logout"),
               ),
@@ -108,7 +167,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// 🔹 PROFILE OPTION TILE
   Widget _profileTile({
     required IconData icon,
     required String title,
@@ -120,7 +178,7 @@ class ProfileScreen extends StatelessWidget {
         tileColor: white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         leading: CircleAvatar(
-          backgroundColor: Colors.blue.shade100,
+          backgroundColor: blue.withOpacity(0.12),
           child: Icon(icon, color: blue),
         ),
         title: Text(title),
