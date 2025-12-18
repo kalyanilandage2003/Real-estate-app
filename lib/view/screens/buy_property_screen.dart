@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ghar_for_sale/util/constant.dart';
 
 class BuyPropertyScreen extends StatelessWidget {
   const BuyPropertyScreen({super.key});
@@ -8,16 +9,16 @@ class BuyPropertyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
 
-      /// 🔝 APP BAR
+      ///  APP BAR
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: white,
         centerTitle: true,
         title: const Text(
           "Buy Property",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          style: TextStyle(color: black, fontWeight: FontWeight.w600),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: black),
       ),
 
       body: SingleChildScrollView(
@@ -26,7 +27,7 @@ class BuyPropertyScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 16),
 
-            /// 🔍 SEARCH
+            ///  SEARCH
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
@@ -34,7 +35,7 @@ class BuyPropertyScreen extends StatelessWidget {
                   hintText: "Search city, locality, project",
                   prefixIcon: const Icon(Icons.search),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -45,7 +46,7 @@ class BuyPropertyScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            /// 🏙 POPULAR CITIES
+            ///  POPULAR CITIES
             _sectionTitle("Popular Cities"),
             SizedBox(
               height: 100,
@@ -63,7 +64,7 @@ class BuyPropertyScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            /// 🏠 PROPERTY TYPES
+            ///  PROPERTY TYPES
             _sectionTitle("Property Type"),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,7 +79,7 @@ class BuyPropertyScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            /// ⭐ FEATURED
+            ///  FEATURED
             _sectionTitle("Featured Properties"),
             ListView.builder(
               shrinkWrap: true,
@@ -95,7 +96,7 @@ class BuyPropertyScreen extends StatelessWidget {
     );
   }
 
-  /// 🔹 SECTION TITLE
+  ///  SECTION TITLE
   Widget _sectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -107,7 +108,7 @@ class BuyPropertyScreen extends StatelessWidget {
   }
 }
 
-/// 🏙 CITY CARD
+///  CITY CARD
 class _CityCard extends StatelessWidget {
   final String name;
   const _CityCard({required this.name});
@@ -118,11 +119,9 @@ class _CityCard extends StatelessWidget {
       width: 90,
       margin: const EdgeInsets.only(right: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: white,
         borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 6),
-        ],
+        boxShadow: [BoxShadow(color: black.withOpacity(0.05), blurRadius: 6)],
       ),
       child: Center(
         child: Text(name, style: const TextStyle(fontWeight: FontWeight.w600)),
@@ -131,7 +130,7 @@ class _CityCard extends StatelessWidget {
   }
 }
 
-/// 🏠 TYPE CARD
+///  TYPE CARD
 class _TypeCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -145,7 +144,7 @@ class _TypeCard extends StatelessWidget {
         height: 90,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: white,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Column(
@@ -161,14 +160,14 @@ class _TypeCard extends StatelessWidget {
   }
 }
 
-/// 🏡 PROPERTY CARD
+/// PROPERTY CARD
 class _PropertyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: white,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -194,10 +193,7 @@ class _PropertyCard extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 SizedBox(height: 4),
-                Text(
-                  "2 BHK Apartment • Pune",
-                  style: TextStyle(color: Colors.grey),
-                ),
+                Text("2 BHK Apartment • Pune", style: TextStyle(color: grey)),
               ],
             ),
           ),

@@ -1,82 +1,55 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+enum PropertyStatus { pending, approved, available, sold }
 
 class PropertyModel {
   final String id;
+  final String image;
+  final String price;
   final String title;
-  final String description;
-  final double price;
-  final String city;
-  final String address;
-  final double latitude;
-  final double longitude;
-  final String propertyType; // Apartment, Villa, Plot
-  final int bedrooms;
-  final int bathrooms;
-  final double area; // in sqft
-  final List<String> images;
-  final bool isFeatured;
-  final String ownerId;
-  final Timestamp createdAt;
+  final String location;
+  final int beds;
+  final int baths;
+  final int sqft;
+  final String status;
+  bool isFavorite;
 
   PropertyModel({
     required this.id,
-    required this.title,
-    required this.description,
+    required this.image,
     required this.price,
-    required this.city,
-    required this.address,
-    required this.latitude,
-    required this.longitude,
-    required this.propertyType,
-    required this.bedrooms,
-    required this.bathrooms,
-    required this.area,
-    required this.images,
-    required this.isFeatured,
-    required this.ownerId,
-    required this.createdAt,
+    required this.title,
+    required this.location,
+    required this.beds,
+    required this.baths,
+    required this.sqft,
+    required this.status,
+    this.isFavorite = false,
   });
 
-  /// 🔥 Firestore → Model
-  factory PropertyModel.fromMap(Map<String, dynamic> map, String docId) {
+  factory PropertyModel.fromMap(Map<String, dynamic> map, String id) {
     return PropertyModel(
-      id: docId,
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
-      price: (map['price'] ?? 0).toDouble(),
-      city: map['city'] ?? '',
-      address: map['address'] ?? '',
-      latitude: (map['latitude'] ?? 0).toDouble(),
-      longitude: (map['longitude'] ?? 0).toDouble(),
-      propertyType: map['propertyType'] ?? '',
-      bedrooms: map['bedrooms'] ?? 0,
-      bathrooms: map['bathrooms'] ?? 0,
-      area: (map['area'] ?? 0).toDouble(),
-      images: List<String>.from(map['images'] ?? []),
-      isFeatured: map['isFeatured'] ?? false,
-      ownerId: map['ownerId'] ?? '',
-      createdAt: map['createdAt'] ?? Timestamp.now(),
+      id: id,
+      image: map['image'],
+      price: map['price'],
+      title: map['title'],
+      location: map['location'],
+      beds: map['beds'],
+      baths: map['baths'],
+      sqft: map['sqft'],
+      status: map['status'],
+      isFavorite: map['isFavorite'] ?? false,
     );
   }
 
-  /// 🔥 Model → Firestore
   Map<String, dynamic> toMap() {
     return {
-      'title': title,
-      'description': description,
+      'image': image,
       'price': price,
-      'city': city,
-      'address': address,
-      'latitude': latitude,
-      'longitude': longitude,
-      'propertyType': propertyType,
-      'bedrooms': bedrooms,
-      'bathrooms': bathrooms,
-      'area': area,
-      'images': images,
-      'isFeatured': isFeatured,
-      'ownerId': ownerId,
-      'createdAt': createdAt,
+      'title': title,
+      'location': location,
+      'beds': beds,
+      'baths': baths,
+      'sqft': sqft,
+      'isFavorite': isFavorite,
     };
   }
 }

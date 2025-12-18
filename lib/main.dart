@@ -1,7 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/controller/share_pref.dart';
+import 'package:ghar_for_sale/provider/agent_auth_provider.dart';
+import 'package:ghar_for_sale/provider/agent_dashboard_provider.dart';
+import 'package:ghar_for_sale/provider/auth_provider_screen.dart';
+import 'package:ghar_for_sale/provider/property_provider.dart';
+import 'package:ghar_for_sale/provider/user_auth_provider.dart';
 import 'package:ghar_for_sale/view/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +20,18 @@ void main() async {
     ),
   );
   await MySharedPrefference.init();
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PropertyProvider()),
+        ChangeNotifierProvider(create: (_) => AgentDashboardProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProviderScreen()),
+        ChangeNotifierProvider(create: (_) => AgentAuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserAuthProvider()),
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -22,36 +39,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue,
-        scaffoldBackgroundColor: Colors.grey.shade100,
-
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          primary: Colors.blue,
-          secondary: Colors.blueAccent,
-        ),
-
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-        ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
-      ),
-      home: SplashScreen(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
   }
 }

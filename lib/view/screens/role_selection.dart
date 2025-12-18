@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/view/screens/login_screen.dart';
+import 'package:ghar_for_sale/util/constant.dart';
+import 'package:ghar_for_sale/view/screens/agent_login_screen.dart';
+import 'package:ghar_for_sale/view/screens/onboarding_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
@@ -45,7 +47,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: SlideTransition(
@@ -81,7 +83,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const LoginScreen(role: "User"),
+                          builder: (_) => const OnboardingScreen(),
                         ),
                       );
                     },
@@ -95,9 +97,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen>
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const LoginScreen(role: "Agent"),
-                        ),
+                        MaterialPageRoute(builder: (_) => AgentLoginScreen()),
                       );
                     },
                   ),

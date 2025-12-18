@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/controller/share_pref.dart';
 import 'package:ghar_for_sale/util/constant.dart';
-import 'package:ghar_for_sale/view/screens/login_screen.dart';
+import 'package:ghar_for_sale/view/screens/agent_login_screen.dart';
+import 'package:ghar_for_sale/view/screens/user_login_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final String role; // user or guide
+  final String role;
   const SignUpScreen({super.key, required this.role});
 
   @override
@@ -117,7 +118,7 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
           bgColor: green,
         );
 
-        goToPushReplacement(context, LoginScreen(role: 'user'));
+        goToPushReplacement(context, UserLoginScreen());
       } on FirebaseAuthException catch (error) {
         log(" Error Code: ${error.code}");
         log("Error Message: ${error.message}");
@@ -238,8 +239,7 @@ class _UserSignUpTabState extends State<UserSignUpTab> {
                 style: TextStyle(fontSize: 18, color: blueGrey),
               ),
               GestureDetector(
-                onTap: () =>
-                    goToPushReplacement(context, LoginScreen(role: 'user')),
+                onTap: () => goToPushReplacement(context, UserLoginScreen()),
                 child: Text(
                   "Login",
                   style: TextStyle(
@@ -332,7 +332,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
               'location': '',
               'bio': '',
               'availableFor': '',
-              'role': 'architect',
+              'role': 'agent',
               'licenseNo': licenseController.text.trim(),
               'panCard': panCardController.text.trim(),
               'eduDegree': eduDegController.text.trim(),
@@ -358,7 +358,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
         eduDegController.clear();
 
         ///Pop the page
-        goToPushReplacement(context, LoginScreen(role: 'agent'));
+        goToPushReplacement(context, AgentLoginScreen());
 
         CustomSnackbar().showCustomSnackbar(
           context,
@@ -496,7 +496,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
           const SizedBox(height: 30),
           CustomButton(
             horizontal: 65,
-            text: "Sign Up as Architect",
+            text: "Sign Up as Agent",
             isLoading: _isLoading,
             onTapped: () async {
               await _architectSignUp();
@@ -511,8 +511,7 @@ class _ArchitectSignUpTabState extends State<ArchitectSignUpTab> {
                 style: TextStyle(fontSize: 18, color: blueGrey),
               ),
               GestureDetector(
-                onTap: () =>
-                    goToPushReplacement(context, LoginScreen(role: 'user')),
+                onTap: () => goToPushReplacement(context, UserLoginScreen()),
                 child: Text(
                   "Login",
                   style: TextStyle(

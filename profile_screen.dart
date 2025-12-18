@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/my_properties.dart';
 import 'package:ghar_for_sale/view/screens/settings_screen.dart';
 import 'package:ghar_for_sale/view/screens/help_support_screen.dart';
-import 'package:ghar_for_sale/view/screens/user_login_screen.dart';
 import 'package:ghar_for_sale/view/screens/wishlist_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -146,13 +144,8 @@ class ProfileScreen extends StatelessWidget {
                               Navigator.pop(context); // close dialog
 
                               /// 🔥 YAHAN LOGOUT LOGIC AAYEGA
-                              FirebaseAuth.instance.signOut();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => UserLoginScreen(),
-                                ),
-                              );
+                              // FirebaseAuth.instance.signOut();
+                              // Navigator.pushAndRemoveUntil(...);
                             },
                             child: const Text("Logout"),
                           ),
