@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/home_screen.dart';
 import 'package:ghar_for_sale/view/screens/map_screen.dart';
+
 import 'package:ghar_for_sale/view/screens/profile_screen.dart';
 import 'package:ghar_for_sale/view/screens/wishlist_screen.dart';
 
@@ -17,7 +18,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   final List<Widget> _screens = const [
     HomeScreen(),
-    MapScreen(),
+    NavigatetoMapscreen(latitude: 18.5204, longitude: 73.8567),
     WishlistScreen(),
     ProfileScreen(),
   ];

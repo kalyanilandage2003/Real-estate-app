@@ -1,121 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/util/constant.dart';
+import 'package:geolocator/geolocator.dart';
 
-class MapScreen extends StatelessWidget {
-  const MapScreen({super.key});
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class NavigatetoMapscreen extends StatefulWidget {
+  // final String fortName;
+  final double latitude;
+  final double longitude;
+
+  const NavigatetoMapscreen({
+    super.key,
+    //required this.fortName,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  @override
+  State<NavigatetoMapscreen> createState() => _NavigatetoMapscreenState();
+}
+
+class _NavigatetoMapscreenState extends State<NavigatetoMapscreen> {
+  GoogleMapController? _controller;
+  LatLng? _currentLocation;
+  double _zoom = 14.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever)
+      return;
+
+    Position pos = await Geolocator.getCurrentPosition();
+    setState(() {
+      _currentLocation = LatLng(pos.latitude, pos.longitude);
+    });
+  }
+
+  Future<void> _startNavigation() async {
+    if (_currentLocation == null) return;
+
+    final url = Uri.parse(
+      'https://www.google.com/maps/dir/?api=1'
+      '&origin=${_currentLocation!.latitude},${_currentLocation!.longitude}'
+      '&destination=${widget.latitude},${widget.longitude}'
+      '&travelmode=driving',
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Cannot open Google Maps")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
-
-      /// 🔝 APP BAR (LIGHT & PROFESSIONAL)
       appBar: AppBar(
-        backgroundColor: white,
-        elevation: 0.5,
-        iconTheme: const IconThemeData(color: black),
-        title: const Text(
-          "Property Map",
-          style: TextStyle(
-            color: black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        //title: Text(widget.fortName),
+        backgroundColor: Colors.blue,
       ),
-
-      body: Stack(
-        children: [
-          /// 🗺 MAP PLACEHOLDER (CLEAN)
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.grey.shade200,
-            child: const Center(
-              child: Icon(Icons.map_outlined, size: 90, color: grey),
-            ),
-          ),
-
-          /// 🔍 SEARCH BAR (TOP)
-          Positioned(
-            top: 16,
-            left: 16,
-            right: 16,
-            child: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [BoxShadow(color: black12, blurRadius: 6)],
+      body: _currentLocation == null
+          ? const Center(child: CircularProgressIndicator())
+          : GoogleMap(
+              onMapCreated: (c) => _controller = c,
+              initialCameraPosition: CameraPosition(
+                target: _currentLocation!,
+                zoom: _zoom,
               ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Search area or landmark",
-                  prefixIcon: Icon(Icons.search, color: grey),
+              markers: {
+                Marker(
+                  markerId: const MarkerId("current"),
+                  position: _currentLocation!,
+                  infoWindow: const InfoWindow(title: "You are here"),
                 ),
-              ),
+                Marker(
+                  markerId: const MarkerId("destination"),
+                  position: LatLng(widget.latitude, widget.longitude),
+                  //infoWindow: InfoWindow(title: widget.fortName),
+                ),
+              },
+              myLocationEnabled: true,
+              zoomControlsEnabled: true,
             ),
-          ),
-
-          /// 🏠 PROPERTY CARD (BOTTOM – REAL FEEL)
-          Positioned(
-            bottom: 20,
-            left: 16,
-            right: 16,
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: white,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: const [BoxShadow(color: black12, blurRadius: 10)],
-              ),
-              child: Row(
-                children: [
-                  /// IMAGE
-                  Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.shade300,
-                    ),
-                    child: const Icon(Icons.home, color: grey, size: 36),
-                  ),
-
-                  const SizedBox(width: 12),
-
-                  /// DETAILS
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "₹45 Lakh",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text("2 BHK Apartment", style: TextStyle(fontSize: 14)),
-                        SizedBox(height: 2),
-                        Text(
-                          "Amravati",
-                          style: TextStyle(color: grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  /// CTA ICON
-                  const Icon(Icons.arrow_forward_ios, size: 16, color: grey),
-                ],
-              ),
-            ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: _startNavigation,
+        child: const Icon(Icons.navigation),
       ),
     );
   }

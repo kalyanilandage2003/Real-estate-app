@@ -17,3 +17,4 @@ A new Flutter project.
 # 18/12/25
 
 - added provider in login
+- google map added
