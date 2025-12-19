@@ -17,7 +17,7 @@ class UserAuthProvider extends ChangeNotifier {
   // SharedPreferences keys
   static const String _keyUserEmail = 'userEmail';
   static const String _keyUserId = 'userId';
-  static const String _keyUserRole = 'userRole'; // future use
+  static const String _keyUserRole = 'userRole';
 
   UserAuthProvider() {
     _currentUser = _auth.currentUser; // 🔥 AUTO LOGIN

@@ -3,7 +3,6 @@ import 'package:ghar_for_sale/agent/dashboard_screen.dart';
 import 'package:ghar_for_sale/provider/agent_auth_provider.dart';
 import 'package:ghar_for_sale/util/constant.dart';
 import 'package:ghar_for_sale/view/screens/agent/agent_signup_screen.dart';
-import 'package:ghar_for_sale/view/screens/user_signup_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';

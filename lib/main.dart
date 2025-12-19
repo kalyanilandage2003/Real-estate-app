@@ -6,7 +6,6 @@ import 'package:ghar_for_sale/provider/agent_dashboard_provider.dart';
 import 'package:ghar_for_sale/provider/auth_provider_screen.dart';
 import 'package:ghar_for_sale/provider/property_provider.dart';
 import 'package:ghar_for_sale/provider/user_auth_provider.dart';
-import 'package:ghar_for_sale/view/screens/map_screen.dart';
 import 'package:ghar_for_sale/view/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 

@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
 
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: white.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
