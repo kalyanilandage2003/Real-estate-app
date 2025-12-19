@@ -38,7 +38,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: white),
       ),
 
       /// BODY

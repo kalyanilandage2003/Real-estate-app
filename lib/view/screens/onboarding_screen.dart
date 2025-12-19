@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/model/onboarding_model.dart';
 import 'package:ghar_for_sale/util/constant.dart';
+import 'package:ghar_for_sale/view/screens/bottom_navigation_screen.dart';
 import 'package:ghar_for_sale/view/screens/user_login_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/onboarding_widget.dart';

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/widgets/animated_inquiry_card.dart';
 import 'package:ghar_for_sale/widgets/animated_property_card.dart';
@@ -22,7 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     super.initState();
-    context.read<AgentDashboardProvider>().loadDashboard("AGENT_ID");
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    context.read<AgentDashboardProvider>().loadDashboard(uid);
 
     _fabAnimationController = AnimationController(
       vsync: this,
@@ -44,20 +46,28 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0
-          ? _buildDashboard()
-          : Center(child: Text('Other Screens Placeholder')),
+      body: _getSelectedScreen(),
       bottomNavigationBar: _buildBottomNav(),
     );
   }
 
-  Widget _buildDashboard() {
+  Widget _getSelectedScreen() {
     final dashboard = context.watch<AgentDashboardProvider>();
-
-    if (dashboard.isLoading) {
-      return Center(child: CircularProgressIndicator());
+    switch (_selectedIndex) {
+      case 0:
+        return _buildDashboard(dashboard);
+      case 1:
+        return Center(child: Text('Properties Screen'));
+      case 2:
+        return Center(child: Text('Inquiries Screen'));
+      case 3:
+        return Center(child: Text('Profile Screen'));
+      default:
+        return _buildDashboard(dashboard);
     }
+  }
 
+  Widget _buildDashboard(AgentDashboardProvider dashboard) {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -210,7 +220,11 @@ class _DashboardScreenState extends State<DashboardScreen>
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
-          onTap: (index) => context,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,

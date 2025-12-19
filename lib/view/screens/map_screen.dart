@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:ghar_for_sale/util/constant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -65,10 +65,57 @@ class _NavigatetoMapscreenState extends State<NavigatetoMapscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //title: Text(widget.fortName),
-        backgroundColor: Colors.blue,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 40,
+            left: 16,
+            right: 8,
+            bottom: 0,
+          ),
+          decoration: const BoxDecoration(
+            // gradient: LinearGradient(
+            //   colors: [blueAccent, Color.fromARGB(255, 4, 41, 71)],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.bottomRight,
+            // ),
+            color: blueAccent,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  // Text(
+                  //   "Let’s find your",
+                  //   style: TextStyle(fontSize: 14, color: Colors.white70),
+                  // ),
+                  SizedBox(height: 4),
+                  Text(
+                    "Explore through Map",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: white,
+                    ),
+                  ),
+                ],
+              ),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+
       body: _currentLocation == null
           ? const Center(child: CircularProgressIndicator())
           : GoogleMap(

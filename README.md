@@ -18,3 +18,4 @@ A new Flutter project.
 
 - added provider in login
 - google map added
+- added functinality using share pref

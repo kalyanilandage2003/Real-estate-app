@@ -142,16 +142,19 @@ class ProfileScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               Navigator.pop(context); // close dialog
 
-                              /// 🔥 YAHAN LOGOUT LOGIC AAYEGA
-                              FirebaseAuth.instance.signOut();
-                              Navigator.push(
+                              /// 🔥 Logout logic
+                              await FirebaseAuth.instance.signOut();
+
+                              /// Clear entire navigation stack and open Login screen
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => UserLoginScreen(),
+                                  builder: (_) => const UserLoginScreen(),
                                 ),
+                                (route) => false, // remove all previous routes
                               );
                             },
                             child: const Text("Logout"),

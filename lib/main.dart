@@ -6,6 +6,7 @@ import 'package:ghar_for_sale/provider/agent_dashboard_provider.dart';
 import 'package:ghar_for_sale/provider/auth_provider_screen.dart';
 import 'package:ghar_for_sale/provider/property_provider.dart';
 import 'package:ghar_for_sale/provider/user_auth_provider.dart';
+import 'package:ghar_for_sale/view/screens/map_screen.dart';
 import 'package:ghar_for_sale/view/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
+      // home: NavigatetoMapscreen(
+      //   fortName: '',
+      //   latitude: 18.5204,
+      //   longitude: 73.8567,
+      // ),
+    );
   }
 }

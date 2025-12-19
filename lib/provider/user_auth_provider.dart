@@ -15,203 +15,115 @@ class UserAuthProvider extends ChangeNotifier {
   bool get isLoggedIn => _currentUser != null;
 
   // SharedPreferences keys
-  static const String _keyIsLoggedIn = 'isLoggedIn';
   static const String _keyUserEmail = 'userEmail';
   static const String _keyUserId = 'userId';
+  static const String _keyUserRole = 'userRole'; // future use
 
   UserAuthProvider() {
-    _initializeAuth();
+    _currentUser = _auth.currentUser; // 🔥 AUTO LOGIN
   }
 
-  // Initialize and check if user is already logged in
-  Future<void> _initializeAuth() async {
-    _currentUser = _auth.currentUser;
-
-    if (_currentUser != null) {
-      await _saveLoginState(true);
-    }
-
-    notifyListeners();
-  }
-
-  // Toggle password visibility
+  // Toggle password visibility (UI only)
   void togglePasswordVisibility() {
     _isPasswordShown = !_isPasswordShown;
     notifyListeners();
   }
 
-  // Login user with email and password
-  Future<bool> loginUser({
+  // LOGIN
+  Future<User?> loginUser({
     required String email,
     required String password,
   }) async {
     try {
-      _isLoading = true;
-      notifyListeners();
+      _setLoading(true);
 
-      // Sign in with Firebase
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      final credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      _currentUser = userCredential.user;
+      _currentUser = credential.user;
+      await _saveUserData(email, _currentUser!.uid, 'user');
 
-      // Save login state to SharedPreferences
-      await _saveLoginState(true);
-      await _saveUserData(email, _currentUser!.uid);
-
-      _isLoading = false;
-      notifyListeners();
-
-      return true;
+      _setLoading(false);
     } on FirebaseAuthException catch (e) {
-      _isLoading = false;
-      notifyListeners();
-
+      _setLoading(false);
       throw _getFirebaseErrorMessage(e);
-    } catch (e) {
-      _isLoading = false;
-      notifyListeners();
-
-      throw 'An unexpected error occurred. Please try again.';
     }
   }
 
-  // Register new user
-  Future<bool> registerUser({
+  // REGISTER
+  Future<void> registerUser({
     required String email,
     required String password,
     required String name,
   }) async {
     try {
-      _isLoading = true;
-      notifyListeners();
+      _setLoading(true);
 
-      // Create user with Firebase
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      _currentUser = userCredential.user;
-
-      // Update display name
+      _currentUser = credential.user;
       await _currentUser!.updateDisplayName(name);
 
-      // Save login state to SharedPreferences
-      await _saveLoginState(true);
-      await _saveUserData(email, _currentUser!.uid);
+      await _saveUserData(email, _currentUser!.uid, 'user');
 
-      _isLoading = false;
-      notifyListeners();
-
-      return true;
+      _setLoading(false);
     } on FirebaseAuthException catch (e) {
-      _isLoading = false;
-      notifyListeners();
-
+      _setLoading(false);
       throw _getFirebaseErrorMessage(e);
-    } catch (e) {
-      _isLoading = false;
-      notifyListeners();
-
-      throw 'An unexpected error occurred. Please try again.';
     }
   }
 
-  // Logout user
+  // LOGOUT
   Future<void> logoutUser() async {
-    try {
-      await _auth.signOut();
-      _currentUser = null;
-
-      // Clear SharedPreferences
-      await _clearLoginState();
-
-      notifyListeners();
-    } catch (e) {
-      throw 'Failed to logout. Please try again.';
-    }
+    await _auth.signOut();
+    _currentUser = null;
+    await _clearUserData();
+    notifyListeners();
   }
 
-  // Check if user is logged in from SharedPreferences
-  Future<bool> checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool(_keyIsLoggedIn) ?? false;
-
-    if (isLoggedIn && _auth.currentUser != null) {
-      _currentUser = _auth.currentUser;
-      notifyListeners();
-      return true;
-    }
-
-    return false;
+  // RESET PASSWORD
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
   }
 
-  // Save login state to SharedPreferences
-  Future<void> _saveLoginState(bool isLoggedIn) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_keyIsLoggedIn, isLoggedIn);
+  // ---------------- PRIVATE HELPERS ----------------
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
   }
 
-  // Save user data to SharedPreferences
-  Future<void> _saveUserData(String email, String userId) async {
+  Future<void> _saveUserData(String email, String userId, String role) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_keyUserEmail, email);
     await prefs.setString(_keyUserId, userId);
+    await prefs.setString(_keyUserRole, role);
   }
 
-  // Clear login state from SharedPreferences
-  Future<void> _clearLoginState() async {
+  Future<void> _clearUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyIsLoggedIn);
-    await prefs.remove(_keyUserEmail);
-    await prefs.remove(_keyUserId);
+    await prefs.clear();
   }
 
-  // Get user email from SharedPreferences
-  Future<String?> getSavedUserEmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyUserEmail);
-  }
-
-  // Get user ID from SharedPreferences
-  Future<String?> getSavedUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyUserId);
-  }
-
-  // Get readable Firebase error messages
   String _getFirebaseErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':
         return 'No user found with this email.';
       case 'wrong-password':
-        return 'Incorrect password. Please try again.';
+        return 'Incorrect password.';
       case 'email-already-in-use':
-        return 'This email is already registered.';
+        return 'Email already registered.';
       case 'weak-password':
-        return 'Password is too weak. Use at least 6 characters.';
+        return 'Password too weak.';
       case 'invalid-email':
-        return 'Invalid email format.';
-      case 'user-disabled':
-        return 'This account has been disabled.';
-      case 'too-many-requests':
-        return 'Too many attempts. Please try again later.';
-      case 'operation-not-allowed':
-        return 'Email/password accounts are not enabled.';
-      case 'invalid-credential':
-        return 'Invalid email or password.';
+        return 'Invalid email.';
       default:
-        return 'Authentication failed. Please try again.';
-    }
-  }
-
-  // Reset password
-  Future<void> resetPassword(String email) async {
-    try {
-      await _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      throw _getFirebaseErrorMessage(e);
+        return 'Authentication failed.';
     }
   }
 }

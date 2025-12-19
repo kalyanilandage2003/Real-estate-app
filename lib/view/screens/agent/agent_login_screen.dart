@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/agent/dashboard_screen.dart';
 import 'package:ghar_for_sale/provider/agent_auth_provider.dart';
 import 'package:ghar_for_sale/util/constant.dart';
-import 'package:ghar_for_sale/view/screens/signup_screen.dart';
+import 'package:ghar_for_sale/view/screens/agent/agent_signup_screen.dart';
+import 'package:ghar_for_sale/view/screens/user_signup_screen.dart';
 import 'package:ghar_for_sale/widgets/custom_button.dart';
 import 'package:ghar_for_sale/widgets/custom_snackbar.dart';
 import 'package:ghar_for_sale/widgets/custom_textfield.dart';
@@ -108,8 +109,7 @@ class _LoginScreenState extends State {
                     style: TextStyle(fontSize: 18, color: blueGrey),
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        goToPush(context, const SignUpScreen(role: 'user')),
+                    onTap: () => goToPush(context, AgentSignUpScreen()),
                     child: Text(
                       "Signup",
                       style: TextStyle(

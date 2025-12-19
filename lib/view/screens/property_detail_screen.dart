@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghar_for_sale/util/constant.dart';
-import 'package:ghar_for_sale/view/screens/agent_details_screen.dart';
+import 'package:ghar_for_sale/view/screens/agent/agent_details_screen.dart';
 import 'package:ghar_for_sale/view/screens/buy_property_screen.dart';
 
 class PropertyDetailScreen extends StatelessWidget {

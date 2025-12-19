@@ -13,109 +13,106 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final propertyProvider = context.watch<PropertyProvider>();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
 
-        // ================= APP BAR =================
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(112),
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 40,
-              left: 16,
-              right: 8,
-              bottom: 16,
-            ),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [blueAccent, Color.fromARGB(255, 4, 41, 71)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Let’s find your",
-                      style: TextStyle(fontSize: 14, color: Colors.white70),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      "Favorite Home",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: white,
-                      ),
-                    ),
-                  ],
-                ),
-
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.notifications_none, color: white),
-                    onPressed: () =>
-                        goToPush(context, const NotificationScreen()),
-                  ),
-                ),
-              ],
+      // ================= APP BAR =================
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 40,
+            left: 16,
+            right: 8,
+            bottom: 0,
+          ),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [blueAccent, Color.fromARGB(255, 4, 41, 71)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-        ),
-
-        // ================= BODY =================
-        body: Column(
-          children: [
-            const SizedBox(height: 16),
-
-            // ================= SEARCH BAR =================
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: white,
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: const [BoxShadow(color: black12, blurRadius: 10)],
-                ),
-                child: const TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search by city, price, BHK...",
-                    prefixIcon: Icon(Icons.search),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 14),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Let’s find your",
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
                   ),
+                  SizedBox(height: 4),
+                  Text(
+                    "Favorite Home",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: white,
+                    ),
+                  ),
+                ],
+              ),
+
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.notifications_none, color: white),
+                  onPressed: () =>
+                      goToPush(context, const NotificationScreen()),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // ================= BODY =================
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+
+          // ================= SEARCH BAR =================
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: const [BoxShadow(color: black12, blurRadius: 10)],
+              ),
+              child: const TextField(
+                decoration: InputDecoration(
+                  hintText: "Search by city, price, BHK...",
+                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
             ),
+          ),
 
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-            // ================= PROPERTY LIST =================
-            Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: propertyProvider.properties.length,
-                itemBuilder: (context, index) {
-                  final property = propertyProvider.properties[index];
+          // ================= PROPERTY LIST =================
+          Expanded(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: propertyProvider.properties.length,
+              itemBuilder: (context, index) {
+                final property = propertyProvider.properties[index];
 
-                  return PropertyCard(property: property);
-                },
-              ),
+                return PropertyCard(property: property);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

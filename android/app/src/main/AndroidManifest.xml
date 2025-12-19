@@ -1,8 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
         android:label="ghar_for_sale"
         android:name="${applicationName}"
+        android:label="ghar_for_sale"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Google Maps API KEY (UNCHANGED) -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBRncvPrNnZ5PTpFj74SG7dL2S6MlmxYHo"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -17,7 +25,7 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
+                android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
             <intent-filter>
@@ -42,4 +50,5 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+
 </manifest>
