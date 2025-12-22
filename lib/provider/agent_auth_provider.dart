@@ -1,32 +1,32 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:ghar_for_sale/controller/share_pref.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:ghar_for_sale/controller/property_controllers.dart';
 
-class AgentAuthProvider extends ChangeNotifier {
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-  User? get currentAgent => FirebaseAuth.instance.currentUser;
+// class AgentAuthProvider extends ChangeNotifier {
+//   bool _isLoading = false;
+//   bool get isLoading => _isLoading;
+//   User? get currentAgent => FirebaseAuth.instance.currentUser;
 
-  Future<bool> loginAgent({
-    required String email,
-    required String password,
-  }) async {
-    _isLoading = true;
-    notifyListeners();
+//   Future<bool> loginAgent({
+//     required String email,
+//     required String password,
+//   }) async {
+//     _isLoading = true;
+//     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 1));
-    await MySharedPrefference.saveIsLogin(true);
-    await MySharedPrefference.saveUserType("agent");
-    await MySharedPrefference.saveUserId("AGENT_001");
+//     await Future.delayed(const Duration(seconds: 1));
+//     await MySharedPrefference.saveIsLogin(true);
+//     await MySharedPrefference.saveUserType("agent");
+//     await MySharedPrefference.saveUserId("AGENT_001");
 
-    _isLoading = false;
-    notifyListeners();
+//     _isLoading = false;
+//     notifyListeners();
 
-    return true;
-  }
+//     return true;
+//   }
 
-  Future<void> logout() async {
-    await MySharedPrefference.clearPrefs();
-    notifyListeners();
-  }
-}
+//   Future<void> logout() async {
+//     await MySharedPrefference.clearPrefs();
+//     notifyListeners();
+//   }
+// }
