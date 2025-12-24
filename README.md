@@ -19,3 +19,9 @@ A new Flutter project.
 - added provider in login
 - google map added
 - added functinality using share pref
+
+# 23/12/2025
+- new updated screens
+
+# 24/12/2025
+- updated
